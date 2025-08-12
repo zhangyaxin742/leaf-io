@@ -8,29 +8,31 @@
 
 @layer base {
   :root {
-    /* Leaf.io Brand Colors */
+    /* Leaf.io Brand Colors - Enhanced for AA contrast */
     --leaf-green-1: 135 85% 65%; /* #3CE986 */
     --leaf-teal-1: 193 73% 45%; /* #1FA5C9 */
-    --mint-accent: 145 85% 70%; /* #6EF0A6 */
+    --leaf-mint: 145 85% 55%; /* Enhanced contrast for AA compliance */
+    --leaf-sage: 160 40% 45%;
+    --leaf-forest: 155 60% 25%;
     
     /* Backgrounds */
     --bg-deep: 183 60% 9%; /* #0B2526 */
     --bg-card: 184 50% 12%; /* #0F2C2D */
     --bg-surface: 184 45% 15%; /* #1A3436 */
     
-    /* Text Colors */
+    /* Text Colors - AA Compliant */
     --text-high: 156 40% 95%; /* #F0FAF7 */
-    --text-mid: 162 25% 70%; /* #B6D4CC */
-    --text-low: 162 20% 50%; /* #7A9B92 */
+    --text-mid: 162 25% 75%; /* Enhanced for better contrast */
+    --text-low: 162 20% 60%; /* Enhanced for better contrast */
     
     /* Borders & Accents */
     --border-subtle: 184 40% 20%; /* #164244 */
     --border-emphasis: 162 25% 30%; /* #4A6B62 */
     
-    /* Status Colors */
-    --success: 142 76% 36%; /* #22C55E */
-    --warning: 38 92% 50%; /* #F59E0B */
-    --error: 0 84% 60%; /* #EF4444 */
+    /* Status Colors - AA Compliant */
+    --success: 142 76% 45%; /* Enhanced for contrast */
+    --warning: 38 92% 55%; /* Enhanced for contrast */
+    --error: 0 84% 65%; /* Enhanced for contrast */
     
     /* Design System Mapping */
     --background: var(--bg-deep);
@@ -45,7 +47,7 @@
     --secondary-foreground: var(--text-high);
     --muted: var(--bg-surface);
     --muted-foreground: var(--text-mid);
-    --accent: var(--mint-accent);
+    --accent: var(--leaf-mint);
     --accent-foreground: var(--bg-deep);
     --destructive: var(--error);
     --destructive-foreground: var(--text-high);
@@ -54,21 +56,35 @@
     --ring: var(--leaf-green-1);
     --radius: 1rem;
 
-    --sidebar-background: 0 0% 98%;
+    /* Light mode overrides */
+    --light-background: 0 0% 98%;
+    --light-foreground: 222.2 84% 4.9%;
+    --light-card: 0 0% 100%;
+    --light-muted: 210 40% 96%;
+    --light-border: 214.3 31.8% 91.4%;
+  }
 
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+  /* Light mode */
+  .light {
+    --background: var(--light-background);
+    --foreground: var(--light-foreground);
+    --card: var(--light-card);
+    --card-foreground: var(--light-foreground);
+    --popover: var(--light-card);
+    --popover-foreground: var(--light-foreground);
+    --primary: var(--leaf-green-1);
+    --primary-foreground: 0 0% 98%;
+    --secondary: var(--light-muted);
+    --secondary-foreground: var(--light-foreground);
+    --muted: var(--light-muted);
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: var(--light-muted);
+    --accent-foreground: var(--light-foreground);
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: var(--light-border);
+    --input: var(--light-border);
+    --ring: var(--leaf-green-1);
   }
 
   .dark {
@@ -158,6 +174,60 @@
   .hover\:scale-102:hover {
     transform: scale(1.02);
   }
+
+  /* Accessibility - Reduce Motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Focus styles for better accessibility */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-leaf-mint focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  /* Animation utilities */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  .story-link {
+    @apply relative inline-block after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-leaf-mint after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left;
+  }
+
+  .hover-scale {
+    @apply transition-transform duration-200 hover:scale-105;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @layer base {
@@ -174,5 +244,30 @@
     font-family: 'Quicksand', system-ui, sans-serif;
     font-weight: 600;
     letter-spacing: -0.025em;
+  }
+
+  /* Ensure high contrast for accessibility */
+  .text-leaf-mint {
+    color: hsl(var(--leaf-mint));
+  }
+
+  .text-text-high {
+    color: hsl(var(--text-high));
+  }
+
+  .text-text-mid {
+    color: hsl(var(--text-mid));
+  }
+
+  .text-text-low {
+    color: hsl(var(--text-low));
+  }
+
+  .bg-leaf-mint {
+    background-color: hsl(var(--leaf-mint));
+  }
+
+  .border-leaf-mint {
+    border-color: hsl(var(--leaf-mint));
   }
 }
