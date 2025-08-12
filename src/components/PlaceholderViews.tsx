@@ -6,6 +6,7 @@ import BudgetRules from "@/components/budget/BudgetRules";
 import InvestSimulator from "@/components/invest/InvestSimulator";
 import LearnView from "@/components/learn/LearnView";
 import ActivityView from "@/components/activity/ActivityView";
+import SettingsView from "@/components/settings/SettingsView";
 import { Button } from "@/components/ui/custom-button";
 import { 
   PieChart, 
@@ -136,57 +137,4 @@ export const ProfileView = () => (
   </div>
 );
 
-export const SettingsView = () => (
-  <div className="min-h-screen grid-background pt-20 md:pt-24 pb-20 md:pb-8">
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl md:text-4xl font-display font-semibold text-foreground mb-8">
-        Settings
-      </h1>
-      
-      <div className="max-w-2xl mx-auto space-y-6">
-        <Card className="glass-card border-0 p-6">
-          <h2 className="text-xl font-display font-semibold text-foreground mb-6">Account Settings</h2>
-          <div className="space-y-3">
-            <Button variant="glass" className="w-full justify-start">
-              Notifications
-              <ArrowRight className="w-4 h-4 ml-auto" />
-            </Button>
-            <Button variant="glass" className="w-full justify-start">
-              Privacy & Security
-              <ArrowRight className="w-4 h-4 ml-auto" />
-            </Button>
-            <Button variant="glass" className="w-full justify-start">
-              Connected Accounts
-              <ArrowRight className="w-4 h-4 ml-auto" />
-            </Button>
-          </div>
-        </Card>
-        
-        <Card className="glass-card border-0 p-6">
-          <h2 className="text-xl font-display font-semibold text-foreground mb-6">Preferences</h2>
-          <div className="space-y-3">
-            <Button variant="glass" className="w-full justify-start">
-              Impact Categories
-              <ArrowRight className="w-4 h-4 ml-auto" />
-            </Button>
-            <Button variant="glass" className="w-full justify-start">
-              Budget Alerts
-              <ArrowRight className="w-4 h-4 ml-auto" />
-            </Button>
-            <Button variant="glass" className="w-full justify-start">
-              Investment Risk
-              <ArrowRight className="w-4 h-4 ml-auto" />
-            </Button>
-          </div>
-        </Card>
-        
-        <Card className="glass-card border-0 p-6">
-          <div className="text-center py-8">
-            <Settings className="w-16 h-16 mx-auto text-leaf-mint mb-4" />
-            <p className="text-text-mid">More settings features coming soon!</p>
-          </div>
-        </Card>
-      </div>
-    </div>
-  </div>
-);
+export { SettingsView };

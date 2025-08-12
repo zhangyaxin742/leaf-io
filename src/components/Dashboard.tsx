@@ -26,7 +26,7 @@ const Dashboard = () => {
           {/* Left Column - LeafSheep and Budget */}
           <div className="space-y-6">
             <LeafSheepPlaceholder 
-              mood="Content"
+              mood="happy"
               streakDays={7}
               onPetClick={handlePetClick}
             />
