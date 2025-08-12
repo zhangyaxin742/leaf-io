@@ -3,7 +3,11 @@ import { Card } from "@/components/ui/card";
 import { LeafLogo } from "@/components/LeafLogo";
 import { ArrowRight, Smartphone, TrendingUp, Leaf, Shield, Target, DollarSign } from "lucide-react";
 
-const LandingPage = () => {
+interface LandingPageProps {
+  onStartOnboarding?: () => void;
+}
+
+const LandingPage = ({ onStartOnboarding }: LandingPageProps = {}) => {
   return (
     <div className="min-h-screen grid-background overflow-hidden">
       {/* Header */}
@@ -45,7 +49,12 @@ const LandingPage = () => {
               Track spending, grow wealth, save the planet. 🌱
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-              <Button variant="hero" size="xl" className="min-w-[200px]">
+              <Button 
+                variant="hero" 
+                size="xl" 
+                className="min-w-[200px]"
+                onClick={onStartOnboarding}
+              >
                 Start Your Journey
                 <ArrowRight className="w-5 h-5" />
               </Button>

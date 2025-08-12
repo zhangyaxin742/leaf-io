@@ -1,16 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import LandingPage from "@/components/LandingPage";
 import Dashboard from "@/components/Dashboard";
 import Navigation from "@/components/Navigation";
 import { BudgetView, InvestView, GoalsView, ProfileView, SettingsView } from "@/components/PlaceholderViews";
 
 const Index = () => {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [currentView, setCurrentView] = useState("landing");
+
+  // Check URL parameters and onboarding status
+  useEffect(() => {
+    const viewParam = searchParams.get('view');
+    const hasCompletedOnboarding = localStorage.getItem('leafio-onboarding-completed');
+    const hasSkippedOnboarding = localStorage.getItem('leafio-onboarding-skipped');
+    
+    if (viewParam && (hasCompletedOnboarding || hasSkippedOnboarding)) {
+      setCurrentView(viewParam);
+    } else if (viewParam && !hasCompletedOnboarding && !hasSkippedOnboarding) {
+      // Redirect to onboarding if trying to access app without completing it
+      navigate('/onboarding');
+    }
+  }, [searchParams, navigate]);
+
+  const handleStartOnboarding = () => {
+    navigate('/onboarding');
+  };
 
   const renderView = () => {
     switch (currentView) {
       case "landing":
-        return <LandingPage />;
+        return <LandingPage onStartOnboarding={handleStartOnboarding} />;
       case "dashboard":
         return <Dashboard />;
       case "budget":
@@ -24,7 +45,7 @@ const Index = () => {
       case "settings":
         return <SettingsView />;
       default:
-        return <LandingPage />;
+        return <LandingPage onStartOnboarding={handleStartOnboarding} />;
     }
   };
 
@@ -32,7 +53,7 @@ const Index = () => {
   if (currentView === "landing") {
     return (
       <div className="min-h-screen">
-        <LandingPage />
+        <LandingPage onStartOnboarding={handleStartOnboarding} />
         {/* Demo button to enter app */}
         <div className="fixed bottom-6 right-6 z-50">
           <button
