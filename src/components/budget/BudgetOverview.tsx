@@ -1,231 +1,228 @@
-import { useState } from "react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/custom-button";
-import { Progress } from "@/components/ui/progress";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/enhanced-card";
+import { Button } from "@/components/ui/enhanced-button";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp, TrendingDown, Edit3, Lightbulb } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-
-interface BudgetCategory {
-  id: string;
-  name: string;
-  budgetTarget: number;
-  spent: number;
-  trend: "up" | "down" | "stable";
-  trendValue: number;
-}
+import { Progress } from "@/components/ui/progress";
+import { useAppData } from "@/hooks/useAppData";
+import BudgetReallocationModal from "./BudgetReallocationModal";
+import { 
+  DollarSign,
+  TrendingUp,
+  TrendingDown,
+  Target,
+  AlertCircle
+} from "lucide-react";
 
 const BudgetOverview = () => {
-  const [categories, setCategories] = useState<BudgetCategory[]>([
-    {
-      id: "income",
-      name: "Income",
-      budgetTarget: 3500,
-      spent: 3247,
-      trend: "down",
-      trendValue: 7.2,
-    },
-    {
-      id: "needs",
-      name: "Needs",
-      budgetTarget: 1750,
-      spent: 1624,
-      trend: "up",
-      trendValue: 5.1,
-    },
-    {
-      id: "wants",
-      name: "Wants",
-      budgetTarget: 1050,
-      spent: 943,
-      trend: "down",
-      trendValue: 2.3,
-    },
-    {
-      id: "save-impact",
-      name: "Save+Impact",
-      budgetTarget: 700,
-      spent: 180,
-      trend: "up",
-      trendValue: 12.4,
-    },
-  ]);
-
-  const [editingCategory, setEditingCategory] = useState<string | null>(null);
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const { toast } = useToast();
-
-  const updateCategoryBudget = (id: string, newTarget: number) => {
-    setCategories(prev =>
-      prev.map(cat =>
-        cat.id === id ? { ...cat, budgetTarget: newTarget } : cat
-      )
+  const { currentBudget, data } = useAppData();
+  
+  if (!currentBudget) {
+    return (
+      <div className="text-center py-12">
+        <DollarSign className="w-16 h-16 mx-auto text-leaf-mint mb-4" />
+        <p className="text-text-mid">No budget data available. Create your first budget!</p>
+      </div>
     );
-    setEditingCategory(null);
-    toast({
-      title: "Budget Updated",
-      description: `${categories.find(c => c.id === id)?.name} budget updated successfully`,
-    });
+  }
+
+  const categories = [
+    {
+      name: "Needs",
+      key: "needs" as const,
+      target: currentBudget.targets.needs,
+      spent: currentBudget.spent.needs,
+      color: "bg-blue-500",
+      description: "Essential expenses like food, transport, supplies"
+    },
+    {
+      name: "Wants", 
+      key: "wants" as const,
+      target: currentBudget.targets.wants,
+      spent: currentBudget.spent.wants,
+      color: "bg-purple-500",
+      description: "Entertainment, dining out, hobbies"
+    },
+    {
+      name: "Save+Impact",
+      key: "saveImpact" as const,
+      target: currentBudget.targets.saveImpact,
+      spent: currentBudget.spent.saveImpact,
+      color: "bg-leaf-mint",
+      description: "Savings and simulated impact investments"
+    }
+  ];
+
+  const getProgressPercentage = (spent: number, target: number) => {
+    return Math.min((spent / target) * 100, 100);
   };
 
-  const suggestions = [
-    {
-      title: "Move $50 from Wants to Save+Impact",
-      description: "You're under budget on Wants this month",
-      impact: "+7% closer to impact goal",
-    },
-    {
-      title: "Increase Needs budget by $100",
-      description: "You've been consistently over budget",
-      impact: "Better tracking accuracy",
-    },
-    {
-      title: "Set up automatic Save+Impact transfer",
-      description: "Save $25 weekly for consistent growth",
-      impact: "+$100 monthly impact investing",
-    },
-  ];
+  const getProgressColor = (spent: number, target: number) => {
+    const percentage = (spent / target) * 100;
+    if (percentage > 100) return "bg-destructive";
+    if (percentage > 90) return "bg-warning";
+    return "bg-success";
+  };
+
+  const getTrendIcon = (spent: number, target: number) => {
+    const percentage = (spent / target) * 100;
+    if (percentage > 100) {
+      return <TrendingUp className="w-4 h-4 text-destructive" />;
+    }
+    return <TrendingDown className="w-4 h-4 text-success" />;
+  };
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-2xl font-display font-semibold text-foreground">Budget Overview</h2>
-          <p className="text-text-mid">Manage your spending categories and targets</p>
-        </div>
-        
-        <Dialog open={showSuggestions} onOpenChange={setShowSuggestions}>
-          <DialogTrigger asChild>
-            <Button variant="hero" className="flex items-center gap-2">
-              <Lightbulb className="w-4 h-4" />
-              Suggest Reallocations
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-lg">
-            <DialogHeader>
-              <DialogTitle className="flex items-center gap-2">
-                <Lightbulb className="w-5 h-5 text-leaf-mint" />
-                Budget Suggestions
-              </DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4">
-              {suggestions.map((suggestion, index) => (
-                <Card key={index} className="glass-card border-0 p-4">
-                  <div className="space-y-2">
-                    <h4 className="font-medium text-foreground">{suggestion.title}</h4>
-                    <p className="text-sm text-text-mid">{suggestion.description}</p>
-                    <Badge variant="secondary" className="text-xs">
-                      {suggestion.impact}
-                    </Badge>
-                  </div>
-                </Card>
-              ))}
-              <Button variant="glass" className="w-full" onClick={() => setShowSuggestions(false)}>
-                Apply Suggestions (Mock)
-              </Button>
-            </div>
-          </DialogContent>
-        </Dialog>
+      {/* Budget Header */}
+      <div className="text-center space-y-4">
+        <h2 className="text-2xl md:text-3xl font-display font-semibold text-foreground">
+          Budget Overview
+        </h2>
+        <p className="text-text-mid">
+          Track spending across your categories for {currentBudget.month.replace('-', ' ')}
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Budget Summary Card */}
+      <Card variant="highlight">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <DollarSign className="w-5 h-5 text-leaf-mint" />
+            Monthly Income: ${currentBudget.income}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="text-center space-y-2">
+              <p className="text-sm text-muted-foreground">Total Allocated</p>
+              <p className="text-2xl font-bold text-foreground">
+                ${currentBudget.targets.needs + currentBudget.targets.wants + currentBudget.targets.saveImpact}
+              </p>
+            </div>
+            <div className="text-center space-y-2">
+              <p className="text-sm text-muted-foreground">Total Spent</p>
+              <p className="text-2xl font-bold text-foreground">
+                ${currentBudget.spent.needs + currentBudget.spent.wants + currentBudget.spent.saveImpact}
+              </p>
+            </div>
+            <div className="text-center space-y-2">
+              <p className="text-sm text-muted-foreground">Remaining</p>
+              <p className="text-2xl font-bold text-success">
+                ${currentBudget.income - (currentBudget.spent.needs + currentBudget.spent.wants + currentBudget.spent.saveImpact)}
+              </p>
+            </div>
+          </div>
+          
+          <div className="mt-6">
+            <BudgetReallocationModal />
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Category Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {categories.map((category) => {
-          const remaining = category.budgetTarget - category.spent;
-          const percentage = (category.spent / category.budgetTarget) * 100;
-          const isOverBudget = percentage > 100;
-
+          const progressPercentage = getProgressPercentage(category.spent, category.target);
+          const remaining = Math.max(0, category.target - category.spent);
+          
           return (
-            <Card key={category.id} className="glass-card border-0 p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="font-display font-semibold text-foreground">{category.name}</h3>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setEditingCategory(category.id)}
-                  className="w-8 h-8"
-                >
-                  <Edit3 className="w-4 h-4" />
-                </Button>
-              </div>
-
-              {editingCategory === category.id ? (
-                <div className="space-y-3">
-                  <Label htmlFor={`budget-${category.id}`} className="text-sm text-text-mid">
-                    Monthly Target
-                  </Label>
-                  <Input
-                    id={`budget-${category.id}`}
-                    type="number"
-                    defaultValue={category.budgetTarget}
-                    onBlur={(e) => {
-                      const newValue = parseFloat(e.target.value);
-                      if (!isNaN(newValue)) {
-                        updateCategoryBudget(category.id, newValue);
-                      }
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        const newValue = parseFloat(e.currentTarget.value);
-                        if (!isNaN(newValue)) {
-                          updateCategoryBudget(category.id, newValue);
-                        }
-                      }
-                    }}
-                    className="text-lg font-semibold"
-                  />
+            <Card 
+              key={category.key} 
+              variant="default"
+              className="hover:scale-102 transition-transform duration-200"
+            >
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-lg">{category.name}</CardTitle>
+                  {getTrendIcon(category.spent, category.target)}
                 </div>
-              ) : (
-                <>
-                  <div className="space-y-2 mb-4">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-text-mid">Spent</span>
-                      <span className="text-xl font-semibold text-foreground">
-                        ${category.spent.toLocaleString()}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-text-mid">Budget</span>
-                      <span className="text-sm text-text-mid">
-                        ${category.budgetTarget.toLocaleString()}
-                      </span>
-                    </div>
+                <p className="text-sm text-muted-foreground">
+                  {category.description}
+                </p>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {/* Progress Section */}
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm font-medium">Progress</span>
+                    <Badge variant={progressPercentage > 100 ? "destructive" : "secondary"}>
+                      {progressPercentage.toFixed(0)}%
+                    </Badge>
                   </div>
-
+                  
                   <Progress 
-                    value={Math.min(percentage, 100)} 
-                    className="h-3 mb-3"
+                    value={progressPercentage} 
+                    className="h-3"
                   />
-
-                  <div className="flex justify-between items-center text-sm">
-                    <span className={`font-medium ${remaining < 0 ? 'text-error' : 'text-success'}`}>
-                      {remaining < 0 ? 'Over' : 'Remaining'}: ${Math.abs(remaining).toLocaleString()}
-                    </span>
-                    <div className="flex items-center gap-1">
-                      {category.trend === "up" ? (
-                        <TrendingUp className="w-4 h-4 text-success" />
-                      ) : (
-                        <TrendingDown className="w-4 h-4 text-error" />
-                      )}
-                      <span className={`text-xs ${category.trend === "up" ? 'text-success' : 'text-error'}`}>
-                        {category.trendValue}%
+                  
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <p className="text-muted-foreground">Spent</p>
+                      <p className="font-semibold text-foreground">${category.spent}</p>
+                    </div>
+                    <div>
+                      <p className="text-muted-foreground">Budget</p>
+                      <p className="font-semibold text-foreground">${category.target}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="pt-2 border-t border-border">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Remaining</span>
+                      <span className={`font-semibold ${remaining > 0 ? 'text-success' : 'text-destructive'}`}>
+                        ${remaining}
                       </span>
                     </div>
                   </div>
-                </>
-              )}
+                </div>
+              </CardContent>
             </Card>
           );
         })}
       </div>
+      
+      {/* Quick Stats */}
+      <Card variant="default">
+        <CardHeader>
+          <CardTitle>This Month's Insights</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-3">
+              <h4 className="font-semibold text-foreground">Spending Patterns</h4>
+              <ul className="space-y-2 text-sm">
+                <li className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Top category</span>
+                  <span className="font-medium">
+                    {categories.reduce((prev, current) => 
+                      prev.spent > current.spent ? prev : current
+                    ).name}
+                  </span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Recent transactions</span>
+                  <span className="font-medium">{data.transactions.length}</span>
+                </li>
+              </ul>
+            </div>
+            
+            <div className="space-y-3">
+              <h4 className="font-semibold text-foreground">Budget Health</h4>
+              <ul className="space-y-2 text-sm">
+                <li className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Categories on track</span>
+                  <span className="font-medium text-success">
+                    {categories.filter(cat => cat.spent <= cat.target).length} of {categories.length}
+                  </span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Active rules</span>
+                  <span className="font-medium">{data.rules.filter(r => r.isActive).length}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
