@@ -18,6 +18,10 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				sans: ['Inter', 'system-ui', 'sans-serif'],
+				display: ['Quicksand', 'system-ui', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -61,7 +65,19 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// Leaf.io specific colors
+				leaf: {
+					green: 'hsl(var(--leaf-green-1))',
+					teal: 'hsl(var(--leaf-teal-1))',
+					mint: 'hsl(var(--mint-accent))'
+				},
+				'text-high': 'hsl(var(--text-high))',
+				'text-mid': 'hsl(var(--text-mid))',
+				'text-low': 'hsl(var(--text-low))',
+				success: 'hsl(var(--success))',
+				warning: 'hsl(var(--warning))',
+				error: 'hsl(var(--error))'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

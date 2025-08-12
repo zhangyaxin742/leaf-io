@@ -1,42 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Leaf.io Design System - Gen-Z budgeting + impact investing */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
+    /* Leaf.io Brand Colors */
+    --leaf-green-1: 135 85% 65%; /* #3CE986 */
+    --leaf-teal-1: 193 73% 45%; /* #1FA5C9 */
+    --mint-accent: 145 85% 70%; /* #6EF0A6 */
+    
+    /* Backgrounds */
+    --bg-deep: 183 60% 9%; /* #0B2526 */
+    --bg-card: 184 50% 12%; /* #0F2C2D */
+    --bg-surface: 184 45% 15%; /* #1A3436 */
+    
+    /* Text Colors */
+    --text-high: 156 40% 95%; /* #F0FAF7 */
+    --text-mid: 162 25% 70%; /* #B6D4CC */
+    --text-low: 162 20% 50%; /* #7A9B92 */
+    
+    /* Borders & Accents */
+    --border-subtle: 184 40% 20%; /* #164244 */
+    --border-emphasis: 162 25% 30%; /* #4A6B62 */
+    
+    /* Status Colors */
+    --success: 142 76% 36%; /* #22C55E */
+    --warning: 38 92% 50%; /* #F59E0B */
+    --error: 0 84% 60%; /* #EF4444 */
+    
+    /* Design System Mapping */
+    --background: var(--bg-deep);
+    --foreground: var(--text-high);
+    --card: var(--bg-card);
+    --card-foreground: var(--text-high);
+    --popover: var(--bg-card);
+    --popover-foreground: var(--text-high);
+    --primary: var(--leaf-green-1);
+    --primary-foreground: var(--bg-deep);
+    --secondary: var(--bg-surface);
+    --secondary-foreground: var(--text-high);
+    --muted: var(--bg-surface);
+    --muted-foreground: var(--text-mid);
+    --accent: var(--mint-accent);
+    --accent-foreground: var(--bg-deep);
+    --destructive: var(--error);
+    --destructive-foreground: var(--text-high);
+    --border: var(--border-subtle);
+    --input: var(--border-subtle);
+    --ring: var(--leaf-green-1);
+    --radius: 1rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -94,12 +110,65 @@ All colors MUST be HSL.
   }
 }
 
+/* Custom gradients and patterns */
+@layer components {
+  .leaf-gradient {
+    background: linear-gradient(45deg, hsl(var(--leaf-green-1)), hsl(var(--leaf-teal-1)));
+  }
+  
+  .leaf-gradient-hover {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .leaf-gradient-hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, hsl(var(--leaf-green-1)), hsl(var(--leaf-teal-1)));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .leaf-gradient-hover:hover::before {
+    opacity: 1;
+  }
+  
+  .leaf-gradient-hover > * {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .grid-background {
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 16px 16px;
+  }
+  
+  .glass-card {
+    background: rgba(15, 44, 45, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid hsl(var(--border-subtle));
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Quicksand', system-ui, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.025em;
   }
 }
