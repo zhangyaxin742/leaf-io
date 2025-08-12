@@ -154,6 +154,10 @@
     backdrop-filter: blur(10px);
     border: 1px solid hsl(var(--border-subtle));
   }
+
+  .hover\:scale-102:hover {
+    transform: scale(1.02);
+  }
 }
 
 @layer base {

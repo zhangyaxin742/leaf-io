@@ -12,6 +12,24 @@ import {
   Star
 } from "lucide-react";
 
+export const LearnView = () => (
+  <div className="min-h-screen grid-background flex items-center justify-center">
+    <div className="text-center space-y-4">
+      <h2 className="text-3xl font-display font-semibold text-foreground">Learn</h2>
+      <p className="text-text-mid">Educational content and bite-sized lessons coming soon</p>
+    </div>
+  </div>
+);
+
+export const ActivityView = () => (
+  <div className="min-h-screen grid-background flex items-center justify-center">
+    <div className="text-center space-y-4">
+      <h2 className="text-3xl font-display font-semibold text-foreground">Activity</h2>
+      <p className="text-text-mid">Transaction history and activity feed coming soon</p>
+    </div>
+  </div>
+);
+
 export const BudgetView = () => (
   <div className="min-h-screen grid-background pt-20 md:pt-24 pb-20 md:pb-8">
     <div className="container mx-auto px-4 py-8">

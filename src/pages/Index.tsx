@@ -3,7 +3,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import LandingPage from "@/components/LandingPage";
 import Dashboard from "@/components/Dashboard";
 import Navigation from "@/components/Navigation";
-import { BudgetView, InvestView, GoalsView, ProfileView, SettingsView } from "@/components/PlaceholderViews";
+import { BudgetView, InvestView, LearnView, ActivityView, SettingsView } from "@/components/PlaceholderViews";
 
 const Index = () => {
   const [searchParams] = useSearchParams();
@@ -38,10 +38,10 @@ const Index = () => {
         return <BudgetView />;
       case "invest":
         return <InvestView />;
-      case "goals":
-        return <GoalsView />;
-      case "profile":
-        return <ProfileView />;
+      case "learn":
+        return <LearnView />;
+      case "activity":
+        return <ActivityView />;
       case "settings":
         return <SettingsView />;
       default:

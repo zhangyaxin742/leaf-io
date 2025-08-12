@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/custom-button";
 import { LeafLogo } from "@/components/LeafLogo";
 import { 
   Home, 
-  PieChart, 
+  Wallet, 
   TrendingUp, 
-  Target, 
+  BookOpen, 
+  Activity, 
   Settings, 
-  User,
   Menu,
   X
 } from "lucide-react";
@@ -22,11 +22,11 @@ const Navigation = ({ currentView, onViewChange }: NavigationProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { id: "dashboard", label: "Dashboard", icon: Home },
-    { id: "budget", label: "Budget", icon: PieChart },
+    { id: "dashboard", label: "Home", icon: Home },
+    { id: "budget", label: "Budget", icon: Wallet },
     { id: "invest", label: "Invest", icon: TrendingUp },
-    { id: "goals", label: "Goals", icon: Target },
-    { id: "profile", label: "Profile", icon: User },
+    { id: "learn", label: "Learn", icon: BookOpen },
+    { id: "activity", label: "Activity", icon: Activity },
     { id: "settings", label: "Settings", icon: Settings },
   ];
 
@@ -39,7 +39,7 @@ const Navigation = ({ currentView, onViewChange }: NavigationProps) => {
             <LeafLogo variant="side" size="md" />
             
             <div className="flex items-center gap-2">
-              {navItems.slice(0, 4).map((item) => (
+              {navItems.slice(0, 5).map((item) => (
                 <Button
                   key={item.id}
                   variant={currentView === item.id ? "hero" : "ghost"}
@@ -54,16 +54,13 @@ const Navigation = ({ currentView, onViewChange }: NavigationProps) => {
             </div>
 
             <div className="flex items-center gap-2">
-              {navItems.slice(4).map((item) => (
-                <Button
-                  key={item.id}
-                  variant={currentView === item.id ? "hero" : "ghost"}
-                  size="icon"
-                  onClick={() => onViewChange(item.id)}
-                >
-                  <item.icon className="w-4 h-4" />
-                </Button>
-              ))}
+              <Button
+                variant={currentView === "settings" ? "hero" : "ghost"}
+                size="icon"
+                onClick={() => onViewChange("settings")}
+              >
+                <Settings className="w-4 h-4" />
+              </Button>
             </div>
           </div>
         </div>
@@ -108,8 +105,8 @@ const Navigation = ({ currentView, onViewChange }: NavigationProps) => {
 
       {/* Mobile Bottom Navigation */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-border/50 backdrop-blur-sm bg-background/90">
-        <div className="grid grid-cols-4 gap-1 p-2">
-          {navItems.slice(0, 4).map((item) => (
+        <div className="grid grid-cols-5 gap-1 p-2">
+          {navItems.slice(0, 5).map((item) => (
             <Button
               key={item.id}
               variant={currentView === item.id ? "hero" : "ghost"}
