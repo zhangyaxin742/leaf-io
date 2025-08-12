@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import BudgetOverview from "@/components/budget/BudgetOverview";
 import TransactionsView from "@/components/budget/TransactionsView";
 import BudgetRules from "@/components/budget/BudgetRules";
+import InvestSimulator from "@/components/invest/InvestSimulator";
 import { Button } from "@/components/ui/custom-button";
 import { 
   PieChart, 
@@ -70,39 +71,7 @@ export const BudgetView = () => {
   );
 };
 
-export const InvestView = () => (
-  <div className="min-h-screen grid-background pt-20 md:pt-24 pb-20 md:pb-8">
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl md:text-4xl font-display font-semibold text-foreground mb-8">
-        Impact Investing
-      </h1>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <Card className="glass-card border-0 p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-display font-semibold text-foreground">Portfolio</h2>
-            <Button variant="hero" size="sm">
-              <TrendingUp className="w-4 h-4" />
-              Invest More
-            </Button>
-          </div>
-          <div className="text-center py-12">
-            <TrendingUp className="w-16 h-16 mx-auto text-leaf-mint mb-4" />
-            <p className="text-text-mid">Build your impact portfolio with sustainable investments!</p>
-          </div>
-        </Card>
-        
-        <Card className="glass-card border-0 p-6">
-          <h2 className="text-xl font-display font-semibold text-foreground mb-6">Impact Funds</h2>
-          <div className="text-center py-12">
-            <Leaf className="w-16 h-16 mx-auto text-leaf-mint mb-4" />
-            <p className="text-text-mid">Discover funds that match your values!</p>
-          </div>
-        </Card>
-      </div>
-    </div>
-  </div>
-);
+export const InvestView = () => <InvestSimulator />;
 
 export const GoalsView = () => (
   <div className="min-h-screen grid-background pt-20 md:pt-24 pb-20 md:pb-8">
