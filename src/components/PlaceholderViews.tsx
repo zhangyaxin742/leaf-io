@@ -4,6 +4,8 @@ import BudgetOverview from "@/components/budget/BudgetOverview";
 import TransactionsView from "@/components/budget/TransactionsView";
 import BudgetRules from "@/components/budget/BudgetRules";
 import InvestSimulator from "@/components/invest/InvestSimulator";
+import LearnView from "@/components/learn/LearnView";
+import ActivityView from "@/components/activity/ActivityView";
 import { Button } from "@/components/ui/custom-button";
 import { 
   PieChart, 
@@ -17,23 +19,9 @@ import {
   Star
 } from "lucide-react";
 
-export const LearnView = () => (
-  <div className="min-h-screen grid-background flex items-center justify-center">
-    <div className="text-center space-y-4">
-      <h2 className="text-3xl font-display font-semibold text-foreground">Learn</h2>
-      <p className="text-text-mid">Educational content and bite-sized lessons coming soon</p>
-    </div>
-  </div>
-);
+export { LearnView };
 
-export const ActivityView = () => (
-  <div className="min-h-screen grid-background flex items-center justify-center">
-    <div className="text-center space-y-4">
-      <h2 className="text-3xl font-display font-semibold text-foreground">Activity</h2>
-      <p className="text-text-mid">Transaction history and activity feed coming soon</p>
-    </div>
-  </div>
-);
+export { ActivityView };
 
 export const BudgetView = () => {
   const [activeTab, setActiveTab] = useState("overview");
