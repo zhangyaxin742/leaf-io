@@ -1,4 +1,8 @@
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
+import BudgetOverview from "@/components/budget/BudgetOverview";
+import TransactionsView from "@/components/budget/TransactionsView";
+import BudgetRules from "@/components/budget/BudgetRules";
 import { Button } from "@/components/ui/custom-button";
 import { 
   PieChart, 
@@ -30,61 +34,41 @@ export const ActivityView = () => (
   </div>
 );
 
-export const BudgetView = () => (
-  <div className="min-h-screen grid-background pt-20 md:pt-24 pb-20 md:pb-8">
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl md:text-4xl font-display font-semibold text-foreground mb-8">
-        Budget Planner
-      </h1>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-6">
-          <Card className="glass-card border-0 p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-display font-semibold text-foreground">Monthly Budget</h2>
-              <Button variant="hero" size="sm">
-                <PieChart className="w-4 h-4" />
-                View Chart
-              </Button>
-            </div>
-            <div className="text-center py-12">
-              <BarChart3 className="w-16 h-16 mx-auto text-leaf-mint mb-4" />
-              <p className="text-text-mid">Detailed budget tracking coming soon!</p>
-            </div>
-          </Card>
-          
-          <Card className="glass-card border-0 p-6">
-            <h2 className="text-xl font-display font-semibold text-foreground mb-6">Spending Analysis</h2>
-            <div className="text-center py-12">
-              <PieChart className="w-16 h-16 mx-auto text-leaf-mint mb-4" />
-              <p className="text-text-mid">AI-powered spending insights coming soon!</p>
-            </div>
-          </Card>
+export const BudgetView = () => {
+  const [activeTab, setActiveTab] = useState("overview");
+
+  return (
+    <div className="min-h-screen grid-background pt-20 pb-24 md:pt-24 md:pb-8">
+      <div className="container mx-auto px-4 py-6 space-y-6">
+        {/* Tab Navigation */}
+        <div className="flex bg-muted/30 rounded-full p-1 w-fit">
+          {[
+            { id: "overview", label: "Overview" },
+            { id: "transactions", label: "Transactions" },
+            { id: "rules", label: "Rules" },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`px-4 py-2 text-sm rounded-full transition-all ${
+                activeTab === tab.id
+                  ? "bg-leaf-mint text-background font-medium"
+                  : "text-text-mid hover:text-foreground"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
-        
-        <div className="space-y-6">
-          <Card className="glass-card border-0 p-6">
-            <h3 className="text-lg font-display font-semibold text-foreground mb-4">Quick Actions</h3>
-            <div className="space-y-3">
-              <Button variant="glass" className="w-full justify-start">
-                Add Expense
-                <ArrowRight className="w-4 h-4 ml-auto" />
-              </Button>
-              <Button variant="glass" className="w-full justify-start">
-                Set Budget Goal
-                <ArrowRight className="w-4 h-4 ml-auto" />
-              </Button>
-              <Button variant="glass" className="w-full justify-start">
-                View Reports
-                <ArrowRight className="w-4 h-4 ml-auto" />
-              </Button>
-            </div>
-          </Card>
-        </div>
+
+        {/* Tab Content */}
+        {activeTab === "overview" && <BudgetOverview />}
+        {activeTab === "transactions" && <TransactionsView />}
+        {activeTab === "rules" && <BudgetRules />}
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export const InvestView = () => (
   <div className="min-h-screen grid-background pt-20 md:pt-24 pb-20 md:pb-8">
