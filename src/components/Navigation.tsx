@@ -35,10 +35,10 @@ const Navigation = ({ currentView, onViewChange }: NavigationProps) => {
       <nav className="hidden md:flex fixed top-0 left-0 right-0 z-50 border-b border-border/50 backdrop-blur-sm bg-background/80">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-                <img src="/assets/favicon.png" alt="leaf.io Logo" className="h-10 w-auto"/>
+                <img src="/assets/side-logo.png" alt="leaf.io Logo" className="h-10 w-auto"/>
             <div className="flex items-center gap-2">
               {navItems.slice(0, 5).map((item) => (
-                <Button
+                <Button 
                   key={item.id}
                   variant={currentView === item.id ? "hero" : "ghost"}
                   size="sm"
@@ -67,7 +67,7 @@ const Navigation = ({ currentView, onViewChange }: NavigationProps) => {
       {/* Mobile Navigation Header */}
       <header className="md:hidden fixed top-0 left-0 right-0 z-50 border-b border-border/50 backdrop-blur-sm bg-background/80">
         <div className="flex items-center justify-between px-4 py-4">
-              <img src="/assets/favicon.png" alt="leaf.io Logo" className="h-8 w-auto"/>
+              <img src="/assets/stacked-logo.png" alt="leaf.io Logo" className="h-8 w-auto"/>
           <Button
             variant="ghost"
             size="icon"
