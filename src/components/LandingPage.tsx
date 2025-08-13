@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/custom-button";
 import { Card } from "@/components/ui/card";
-import { LeafLogo } from "@/components/LeafLogo";
 import { ArrowRight, Smartphone, TrendingUp, Leaf, Shield, Target, DollarSign } from "lucide-react";
 
 interface LandingPageProps {
@@ -14,7 +13,7 @@ const LandingPage = ({ onStartOnboarding }: LandingPageProps = {}) => {
       <header className="relative z-10 border-b border-border/50 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
-            <LeafLogo variant="side" size="md" />
+            <img src="/assets/favicon.png" alt="leaf.io Logo" className="h-10 w-auto"/>
             <div className="hidden md:flex items-center gap-8">
               <nav className="flex items-center gap-6 text-text-mid">
                 <a href="#features" className="hover:text-foreground transition-colors">Features</a>

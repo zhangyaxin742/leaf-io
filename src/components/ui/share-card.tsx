@@ -1,7 +1,6 @@
 import React from "react";
 import { Card } from "@/components/ui/enhanced-card";
 import { Button } from "@/components/ui/enhanced-button";
-import { LeafLogo } from "@/components/LeafLogo";
 import { Download, Share2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 

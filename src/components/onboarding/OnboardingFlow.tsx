@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/custom-button";
 import { Progress } from "@/components/ui/progress";
-import { LeafLogo } from "@/components/LeafLogo";
 import { X, ArrowLeft, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -144,7 +143,7 @@ const OnboardingFlow = ({ onComplete, onSkip }: OnboardingFlowProps) => {
       <header className="border-b border-border/50 backdrop-blur-sm bg-background/80">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
-            <LeafLogo variant="side" size="sm" />
+               <img src="/assets/favicon.png" alt="leaf.io Logo" className="h-10 w-auto"/>
             <div className="flex items-center gap-4">
               {/* Progress Indicator */}
               <div className="hidden md:flex items-center gap-2">

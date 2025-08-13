@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/custom-button";
-import { LeafLogo } from "@/components/LeafLogo";
 import { ArrowRight, LogIn } from "lucide-react";
 import type { OnboardingData } from "./OnboardingFlow";
 
@@ -18,8 +17,7 @@ export const WelcomeScreen = ({ onNext }: WelcomeScreenProps) => {
       <div className="max-w-2xl mx-auto px-4 text-center">
         {/* Large Logo */}
         <div className="mb-12">
-          <LeafLogo variant="stacked" size="lg" className="mb-8" />
-          
+              <img src="/assets/stacked-logo.png" alt="leaf.io Logo" className="h-10 w-auto mb-8"/>
           {/* Mascot Placeholder */}
           <div className="w-32 h-32 mx-auto mb-8 glass-card border-2 border-dashed border-leaf-mint/30 rounded-2xl flex items-center justify-center">
             <div className="text-center">
