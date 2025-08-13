@@ -143,7 +143,6 @@ const OnboardingFlow = ({ onComplete, onSkip }: OnboardingFlowProps) => {
       <header className="border-b border-border/50 backdrop-blur-sm bg-background/80">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
-               <img src="/assets/favicon.png" alt="leaf.io Logo" className="h-10 w-auto"/>
             <div className="flex items-center gap-4">
               {/* Progress Indicator */}
               <div className="hidden md:flex items-center gap-2">
